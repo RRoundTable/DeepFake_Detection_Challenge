@@ -6,13 +6,13 @@ Deepfake techniques, which present realistic AI-generated videos of people doing
 
 ## Research Paper
 
-- FSGAN: Subject Agnostic Face Swapping and Reenactment[[paper](https://arxiv.org/pdf/1908.05932.pdf)]
+- [x] FSGAN: Subject Agnostic Face Swapping and Reenactment[[paper](https://arxiv.org/pdf/1908.05932.pdf)]
 
-- Deepfake Video Detection through Optical Flow based CNN[[paper](http://openaccess.thecvf.com/content_ICCVW_2019/html/HBU/Amerini_Deepfake_Video_Detection_through_Optical_Flow_Based_CNN_ICCVW_2019_paper.html)]
+- [x] Deepfake Video Detection through Optical Flow based CNN[[paper](http://openaccess.thecvf.com/content_ICCVW_2019/html/HBU/Amerini_Deepfake_Video_Detection_through_Optical_Flow_Based_CNN_ICCVW_2019_paper.html)]
 
 - Celeb-DF: A New Dataset for DeepFake Forensics[[paper](https://arxiv.org/abs/1909.12962)]
 
-- FaceForensics++: Learning to Detect Manipulated Facial Images[[paper](https://arxiv.org/pdf/1901.08971.pdf) [benchmarks](http://kaldir.vc.in.tum.de/faceforensics_benchmark/) [github](https://github.com/ondyari/FaceForensics/)]
+- [x] FaceForensics++: Learning to Detect Manipulated Facial Images[[paper](https://arxiv.org/pdf/1901.08971.pdf) [benchmarks](http://kaldir.vc.in.tum.de/faceforensics_benchmark/) [github](https://github.com/ondyari/FaceForensics/)]
 
 - Multi-task Learning For Detecting and Segmenting Manipulated Facial Images and Videos:[[paper](https://arxiv.org/abs/1906.06876)]
 
@@ -22,10 +22,10 @@ Deepfake techniques, which present realistic AI-generated videos of people doing
 
 - MesoNet: a Compact Facial Video Forgery Detection Network[[paper](https://arxiv.org/abs/1809.00888)]
 
-- EXPOSING DEEP FAKES USING INCONSISTENT HEAD POSES[[paper](https://arxiv.org/pdf/1811.00661)]
+- [x] EXPOSING DEEP FAKES USING INCONSISTENT HEAD POSES[[paper](https://arxiv.org/pdf/1811.00661)]
 
 - CAPSULE-FORENSICS: USING CAPSULE NETWORKS TO DETECT FORGED IMAGES AND VIDEOS[[paper](https://arxiv.org/pdf/1810.11215.pdf)]
 
 - Detection of Deepfake Video Manipulation[[paper](https://www.researchgate.net/profile/Zeno_Geradts/publication/329814168_Detection_of_Deepfake_Video_Manipulation/links/5c1bdf7da6fdccfc705da03e/Detection-of-Deepfake-Video-Manipulation.pdf)]
 
-- Deepfake Video Detection Using Recurrent Neural Networks[[paper](https://engineering.purdue.edu/~dgueraco/content/deepfake.pdf)]
+- [x] Deepfake Video Detection Using Recurrent Neural Networks[[paper](https://engineering.purdue.edu/~dgueraco/content/deepfake.pdf)]
