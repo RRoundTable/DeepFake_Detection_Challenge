@@ -18,11 +18,11 @@ Deepfake techniques, which present realistic AI-generated videos of people doing
 
 - [ ] FakeCatcher: Detection of Synthetic Portrait Videos using Biological Signals[[paper](https://arxiv.org/pdf/1901.02212.pdf)]
 
-- [ ] Exposing DeepFake Videos By Detecting Face Warping Artifacts[[paper](https://arxiv.org/pdf/1811.00656.pdf)]
+- [X] Exposing DeepFake Videos By Detecting Face Warping Artifacts[[paper](https://arxiv.org/pdf/1811.00656.pdf)]
 
 - [ ] MesoNet: a Compact Facial Video Forgery Detection Network[[paper](https://arxiv.org/abs/1809.00888)]
 
-- [x] EXPOSING DEEP FAKES USING INCONSISTENT HEAD POSES[[paper](https://arxiv.org/pdf/1811.00661)]
+- [ ] EXPOSING DEEP FAKES USING INCONSISTENT HEAD POSES[[paper](https://arxiv.org/pdf/1811.00661)]
 
 - [ ] CAPSULE-FORENSICS: USING CAPSULE NETWORKS TO DETECT FORGED IMAGES AND VIDEOS[[paper](https://arxiv.org/pdf/1810.11215.pdf)]
 
