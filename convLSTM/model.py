@@ -64,24 +64,23 @@ class ConvLSTMCell(nn.Module):
 
 class ConvLSTM(nn.Module):
 
-    def __init__(self, input_size, input_dim, hidden_dim, kernel_size, num_layers, seq_len,
+    def __init__(self, cfg,
                  batch_first=False, bias=True, return_all_layers=False):
         super(ConvLSTM, self).__init__()
 
-        self._check_kernel_size_consistency(kernel_size)
+        self._check_kernel_size_consistency(cfg['kernel_size'])
+        self.height, self.width = cfg['input_size']
+
+        self.input_dim  = cfg['input_dim']
+        self.hidden_dim = cfg['hidden_dim']
+        self.kernel_size = cfg['kernel_size']
+        self.num_layers = cfg['num_layers']
 
         # Make sure that both `kernel_size` and `hidden_dim` are lists having len == num_layers
-        kernel_size = self._extend_for_multilayer(kernel_size, num_layers)
-        hidden_dim  = self._extend_for_multilayer(hidden_dim, num_layers)
-        if not len(kernel_size) == len(hidden_dim) == num_layers:
+        self.kernel_size = self._extend_for_multilayer(self.kernel_size, self.num_layers)
+        self.hidden_dim  = self._extend_for_multilayer(self.hidden_dim, self.num_layers)
+        if not len(self.kernel_size) == len(self.hidden_dim) == self.num_layers:
             raise ValueError('Inconsistent list length.')
-
-        self.height, self.width = input_size
-
-        self.input_dim  = input_dim
-        self.hidden_dim = hidden_dim
-        self.kernel_size = kernel_size
-        self.num_layers = num_layers
         self.batch_first = batch_first
         self.bias = bias
         self.return_all_layers = return_all_layers
@@ -97,9 +96,9 @@ class ConvLSTM(nn.Module):
                                           bias=self.bias))
 
         self.cell_list = nn.ModuleList(cell_list)
-        self.global_avg_pool = nn.AvgPool2d(input_size)
-        
-        self.fc = nn.Linear(800000, 1)
+        #self.global_avg_pool = nn.AvgPool2d(input_size)
+        self.fc = nn.Linear(self.height * self.width * self.hidden_dim[0] , 1)
+        self.dropout = nn.Dropout(cfg['dropout'])
         self.sigmoid = nn.Sigmoid()
 
     def forward(self, input_tensor, hidden_state=None):
@@ -149,6 +148,7 @@ class ConvLSTM(nn.Module):
         # output = self.global_avg_pool(output).flatten()
         # output = F.max_pool2d(output, kernel_size=output.size()[2:])
         output = output.view(batch_size, -1)
+        output = self.dropout(output)
         output = self.fc(output)
         output = self.sigmoid(output)
         return output

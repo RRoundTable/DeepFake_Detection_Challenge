@@ -2,6 +2,7 @@ from sklearn.metrics import precision_score, recall_score, accuracy_score
 import time
 import torch
 from torch import nn
+import pandas as pd
 import wandb
 from config import get_config
 import imageio
@@ -9,6 +10,9 @@ import numpy as np
 import pandas as pd
 import cv2
 import json
+import glob
+import os
+from collections import defaultdict
 
 configs = get_config()
 
@@ -64,6 +68,7 @@ def train_model(model, criterion, dataloaders, optimizer, scheduler, device, num
             # metrics
             epoch_loss = running_loss / (len(dataloaders[phase]) * dataloaders[phase].batch_size)
             epoch_acc = accuracy_score(targets, predictions)
+            
             epoch_recall_1 = recall_score(
                 targets, predictions, average=None
             )[0]
@@ -181,3 +186,77 @@ def read_json(path):
     with open(path) as json_file:
         json_data = json.load(json_file)
     return json_data
+
+
+def read_dataset(folder_path):
+    '''
+    Args:
+        folder_path: str
+    
+    '''
+    csvs = glob.glob(os.path.join(folder_path, '*.csv'))
+    images, labels, landmarks = [], [], []
+    for path in csvs:
+        f = pd.read_csv(path)
+        
+        img_paths = f['crop_image_path']
+        img_paths = np.array(['/'.join(path.split('/')[:-1]) for path in img_paths])
+        
+        _, idx = np.unique(img_paths, return_index=True)
+        idx = np.sort(idx)
+        folder_paths = img_paths[idx]
+        targets = np.array(f['label'])[idx]
+        images += list(folder_paths)
+        labels += list(targets)
+        
+    labels = [int('FAKE' == ele) for ele in labels]
+    assert len(images) == len(labels), "wrong length of images-labels pair imgs {} labels {}".format(len(images), len(labels))
+    return images, labels
+
+def make_dict(input_path, labels, seq_len):
+    class_dict = {0: [], 1: []}
+    length_dict = {}
+    class_idx = [-1] * 2
+    for i in range(len(labels)):
+        if len(glob.glob(os.path.join(input_path[i], '*.*'))) < seq_len: continue
+        class_dict[labels[i]].append(input_path[i])
+    
+    # shuffle
+    np.random.shuffle(class_dict[0])
+    np.random.shuffle(class_dict[1])
+    
+    # print
+    print("REAL: ", len(class_dict[0]))
+    print("FAKE: ", len(class_dict[1]))
+    for k in class_dict.keys():
+        length_dict[k] = len(class_dict[k])
+    print('---Done, Class dict!---')
+    return class_dict, length_dict, class_idx
+    
+
+if __name__ == '__main__':
+    from config import get_config
+    
+    cfg = get_config()
+    images, labels = read_dataset('/hdd2/dfdc_dataset/4_dataframes1')
+    N = len(images)
+    print("total: ", N)
+    train_paths, train_labels, val_paths, val_labels = (
+        images[: int(N * 0.9)],
+        labels[: int(N * 0.9)],
+        images[int(N * 0.9) :],
+        labels[int(N * 0.9) :],
+    )
+    
+    class_dict, length_dict, class_idx = make_dict(train_paths, train_labels, cfg['seq_len'])
+    if not os.path.exists('./dict'):
+        os.mkdir('./dict')
+    np.save("./dict/train_class_dict.npy", class_dict)
+    np.save("./dict/train_length_dict.npy", length_dict)
+    np.save("./dict/train_class_idx_dict.npy", class_idx)
+    
+    class_dict, length_dict, class_idx = make_dict(val_paths, val_labels, cfg['seq_len'])
+    np.save("./dict/val_class_dict.npy", class_dict)
+    np.save("./dict/val_length_dict.npy", length_dict)
+    np.save("./dict/val_class_idx_dict.npy", class_idx)
+    
