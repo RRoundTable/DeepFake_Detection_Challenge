@@ -122,7 +122,7 @@ if __name__ == "__main__":
     # Define Model
     device = torch.device("cuda")
 
-    model = ConvLSTM(cfg, bias=True, batch_first=True,)
+    model = ConvLSTM(cfg, bias=True, batch_first=True)
 
     if cfg["resume"]:
         model.load_state_dict(torch.load(cfg["weights"]))

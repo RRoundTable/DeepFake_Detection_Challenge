@@ -3,25 +3,25 @@ def get_config():
     return {
         'data': 'total',
         'resume': False,
-        'num_workers':4,
+        'num_workers':8,
         'weights': './weights/convLSTM_wd_0_drop_None_epoch_4_acc_0.6000_prec1_0.7500_recall1_0.3000.pth',
         'train_iter': 1000,
         'model': 'fc',
-        'batch_size':16,
+        'batch_size':20,
         'lr': 1e-4,
         'weight_decay': 0,
         'gamma': 0.1,
         'step_size':7,
         'momentum':0.9,
-        'dropout': 0.5,
+        'dropout': 0.7,
         'optimizer': 'radam',
         'seq_len': 10,
-        'mask': 0.1,
+        'mask': 0.2,
         'input_size': (200, 200),
         'input_dim': 3,
-        'hidden_dim':10, 
+        'hidden_dim':5, 
         'model': 'convLSTM',
-        'kernel_size': (9, 9), # NOTE: odd number
+        'kernel_size': (5, 5), # NOTE: odd number
         'num_layers': 2,
     }
 
